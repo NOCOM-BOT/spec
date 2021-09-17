@@ -1,7 +1,7 @@
 # NOCOM_BOT Module Specification
 
-Version: v1r0 (draft)<br>
-Last updated: 11/09/2021
+Version: v0r2 (draft)<br>
+Last updated: 17/09/2021
 
 ## 1. Overview
 
@@ -23,8 +23,9 @@ Commonly used terms in this specification are described below.
 
 - Module: A process that is spawned from Core or a thread inside Core, used for all functionality of NOCOM_BOT.
 
-## 3. Specification
-### 3.1. Module language and format
+## 3. Module protocol and format
+
+### 3.1. Module programming language and format
 
 To ensure the flexiblity of NOCOM_BOT, any programming language can be used to make Module.
 
@@ -44,8 +45,12 @@ Module MUST be packed in ZIP with `module.json` describing the type of Module, a
         "executable" | // If Module is an executable (usually compiled from other languages than JS)
         "code-src" // If Module is source code writen in other languages
     ),
-    moduleNamespace: string,
-    moduleCapable: ("chat_interface", "plugins_resolver", "database")[], // What this module can do.
+    shortName: string,
+    communicationProtocol: (
+        "node_ipc" | // process.send, process.on("message", ...)
+        "node_worker" | // require("worker_threads")
+        "msgpack" // See 3.2
+    ),
     scriptSrc?: string, // Only required if type = "script", describing the entry point location relative to ZIP file root.
     executable?: { // Only required if type = "executable"
         [platform: (
@@ -79,7 +84,7 @@ Module MUST be packed in ZIP with `module.json` describing the type of Module, a
 
 Please note that, when Module is being executed, all content inside the ZIP file will be extracted to `<Core's current working directory>/.data/temp/runtime-${random hex}/${module namespace}/`, and the Module's current working directory (if type = "package" or "executable" or "code-src") will be set to that directory.
 
-### 3.2. Core-Module protocol
+### 3.2. Core-Module communication protocol
 
 If Module is a Node.js-compatible process and support `process.send` and `process.on("message", ...)` then Module SHOULD use that to communicate with Core.
 
@@ -108,8 +113,8 @@ The Core will send a message to Module with this data to initialize handshake:
 ```json
 {
     "type": "handshake",
-    "module": "module type that Module should act",
-    "id": "Module's instance ID"
+    "id": "Module's instance ID",
+    "protocol_version": "1"
 }
 ```
 
@@ -119,7 +124,8 @@ In return, Module MUST return a message with data described below in 30 seconds 
 {
     "type": "handshake_success",
     "module": "<module type that Module is acting>",
-    "module_displayname": "<user-friendly name of the module (example: MongoDB database, Discord interface, ...)>"
+    "module_displayname": "<user-friendly name of the module (example: MongoDB database, Discord interface, ...)>",
+    "module_shortname": "<MUST match with the JSON>"
 }
 ```
 
@@ -157,3 +163,213 @@ If Module received a challenge, it MUST response back a message described below.
 }
 ```
 
+### 3.5. API call/response
+
+Module can call API commands of other modules. When Module want to call an API command, Module MUST send a message:
+
+```json
+{
+    "type": "api_send",
+    "call_to": "<target Module ID>",
+    "call_cmd": "<target API command from target module>",
+    "data": ...,
+    "nonce": <rolling number for each API call or random number>
+}
+```
+
+The target Module will receive a message indicating an API call from other modules:
+
+```json
+{
+    "type": "api_call",
+    "call_from": "<source Module ID>",
+    "call_cmd": ...,
+    "data": ...,
+    "nonce": ...
+}
+```
+
+There are 3 possible responses for the target Module:
+
+1. The API command don't exist and cannot be called
+```json
+{
+    "type": "api_sendresponse",
+    "response_to": "<source Module ID>",
+    "exist": false,
+    "nonce": <exact nonce from request>
+}
+```
+
+2. The API command does exist, but the execution of it failed
+```json
+{
+    "type": "api_sendresponse",
+    "response_to": "<source Module ID>",
+    "exist": true,
+    "error": ...,
+    "data": null,
+    "nonce": <exact nonce from request>
+}
+```
+> Note: Error MUST NOT be an Error object from JavaScript or the native implementation. It SHOULD be a string, or number, or even null (if there isn't an error message).
+
+3. The API command does exist, and executed successfully
+```json
+{
+    "type": "api_sendresponse",
+    "response_to": "<source Module ID>",
+    "exist": true,
+    "error": null,
+    "data": ...,
+    "nonce": <exact nonce from request>
+}
+```
+
+When the target Module has responded, source Module will receive an API response:
+
+```json
+{
+    "type": "api_response",
+    "response_from": "<target Module ID>",
+    "exist": ...,
+    "data": ..., // This will be null if there's an error.
+    "error": ..., // This will be null if error doesn't occur.
+    "nonce": <exact nonce from request>
+}
+```
+
+## 4. Core API call
+
+> Note: The Core's API will be available at module ID `core` to not complicate things up.
+
+### 4.1. Get registered modules (`get_registered_modules`)
+
+Data: none
+
+Return: 
+```ts
+{
+    moduleID: string,
+    shortname: string,
+    displayname: string
+}[]
+```
+
+### 4.2. Kill this module (`kill`)
+
+Data: none
+
+Return: `null`
+
+### 4.3. Shutdown the Core (`shutdown_core`)
+
+Data: none
+
+Return: `null`
+
+### 4.4. Restart the Core (`restart_core`)
+
+Data: none
+
+Return: `null`
+
+### 4.5. Create new Module instance from Module short name (`create_module_instance`)
+
+Data:
+```ts
+{
+    onlyOneInstance: boolean
+}
+```
+
+Return: 
+```ts
+{
+    moduleID: string
+}
+```
+
+## 5. Application-specific API call
+
+> Note: If you are creating an interface that is using the module types defined below, you MUST implement all API call to maintain compatibility. Additional API commands MAY be defined if Module needs that.
+
+### 5.1. Interface handler (module type = "interface")
+
+> Note: The Core expect one account/interface per Module instance.
+
+#### **5.1.1. Login (`login`)**
+
+Data: (Module-defined)
+
+Return: 
+```ts
+{
+    success: boolean,
+    accountName: string,
+    accountID: string,
+    accountAdditionalData: any
+}
+```
+
+#### **5.1.2. Logout (`logout`)**
+
+Data: none
+
+Return: `null`
+
+#### **5.1.3. Get User info (`get_userinfo`)**
+
+Data:
+```ts
+{
+    userID: string
+}
+```
+
+Return:
+```ts
+{
+    userName: string,
+    ...additionalDataModuleDefined
+}
+```
+
+#### **5.1.4. Get Thread/Channel info (`get_channelinfo`)**
+
+Data:
+```ts
+{
+    channelID: string
+}
+```
+
+Return:
+```ts
+{
+    channelName: string,
+    ...additionalDataModuleDefined
+}
+```
+
+#### **5.1.5. Send message (`send_message`)**
+
+Data:
+```ts
+{
+    content: string,
+    attachments: string[], // URL (file:// is allowed)
+    threadID: string,
+    replyMessageID?: string,
+    ...additionalDataModuleDefined
+}
+```
+
+Return:
+```ts
+{
+    success: boolean,
+    messageID: string,
+    ...additionalDataModuleDefined
+}
+```
