@@ -1,7 +1,7 @@
 # NOCOM_BOT Module Specification
 
-Version: v0r2 (draft)<br>
-Last updated: 17/09/2021
+Version: v0r3 (draft)<br>
+Last updated: 14/10/2021
 
 ## 1. Overview
 
@@ -78,7 +78,8 @@ Module MUST be packed in ZIP with `module.json` describing the type of Module, a
         }
     }
     executableArgs?: string, // Only required if type = "executable"
-    transplier?: string // Only required if type = "code-src", describing how to execute the source code.
+    transplier?: string, // Only required if type = "code-src", describing how to execute the source code.
+    autoRestart: boolean
 }
 ```
 
@@ -172,8 +173,8 @@ Module can call API commands of other modules. When Module want to call an API c
     "type": "api_send",
     "call_to": "<target Module ID>",
     "call_cmd": "<target API command from target module>",
-    "data": ...,
-    "nonce": <rolling number for each API call or random number>
+    "data": "...",
+    "nonce": "<rolling number for each API call or random number>"
 }
 ```
 
@@ -183,9 +184,9 @@ The target Module will receive a message indicating an API call from other modul
 {
     "type": "api_call",
     "call_from": "<source Module ID>",
-    "call_cmd": ...,
-    "data": ...,
-    "nonce": ...
+    "call_cmd": "...",
+    "data": "...",
+    "nonce": "..."
 }
 ```
 
@@ -197,7 +198,7 @@ There are 3 possible responses for the target Module:
     "type": "api_sendresponse",
     "response_to": "<source Module ID>",
     "exist": false,
-    "nonce": <exact nonce from request>
+    "nonce": "<exact nonce from request>"
 }
 ```
 
@@ -205,11 +206,13 @@ There are 3 possible responses for the target Module:
 ```json
 {
     "type": "api_sendresponse",
-    "response_to": "<source Module ID>",
+    "response_to":
+                    
+                 "<source Module ID>",
     "exist": true,
-    "error": ...,
+    "error": "...",
     "data": null,
-    "nonce": <exact nonce from request>
+    "nonce": "<exact nonce from request>"
 }
 ```
 > Note: Error MUST NOT be an Error object from JavaScript or the native implementation. It SHOULD be a string, or number, or even null (if there isn't an error message).
@@ -221,8 +224,8 @@ There are 3 possible responses for the target Module:
     "response_to": "<source Module ID>",
     "exist": true,
     "error": null,
-    "data": ...,
-    "nonce": <exact nonce from request>
+    "data": "...",
+    "nonce": "<exact nonce from request>"
 }
 ```
 
@@ -232,10 +235,10 @@ When the target Module has responded, source Module will receive an API response
 {
     "type": "api_response",
     "response_from": "<target Module ID>",
-    "exist": ...,
-    "data": ..., // This will be null if there's an error.
-    "error": ..., // This will be null if error doesn't occur.
-    "nonce": <exact nonce from request>
+    "exist": "...",
+    "data": "...", // This will be null if there's an error.
+    "error": "...", // This will be null if error doesn't occur.
+    "nonce": "<exact nonce from request>"
 }
 ```
 
@@ -274,47 +277,41 @@ Data: none
 
 Return: `null`
 
-### 4.5. Create new Module instance from Module short name (`create_module_instance`)
-
-Data:
-```ts
-{
-    onlyOneInstance: boolean
-}
-```
-
-Return: 
-```ts
-{
-    moduleID: string
-}
-```
-
 ## 5. Application-specific API call
 
 > Note: If you are creating an interface that is using the module types defined below, you MUST implement all API call to maintain compatibility. Additional API commands MAY be defined if Module needs that.
 
 ### 5.1. Interface handler (module type = "interface")
 
-> Note: The Core expect one account/interface per Module instance.
-
 #### **5.1.1. Login (`login`)**
 
-Data: (Module-defined)
+Data:
+```ts
+{
+    interfaceID: number,
+    interfaceData: "module defined"
+}
+```
 
 Return: 
 ```ts
 {
     success: boolean,
     accountName: string,
-    accountID: string,
+    rawAccountID: string,
+    formattedAccountID: string,
     accountAdditionalData: any
 }
 ```
 
 #### **5.1.2. Logout (`logout`)**
 
-Data: none
+Data:
+```ts
+{
+    interfaceID: number
+}
+```
 
 Return: `null`
 
@@ -331,7 +328,7 @@ Return:
 ```ts
 {
     userName: string,
-    ...additionalDataModuleDefined
+    ... // additional data is module-defined.
 }
 ```
 
@@ -348,7 +345,7 @@ Return:
 ```ts
 {
     channelName: string,
-    ...additionalDataModuleDefined
+    ... // additional data is module-defined.
 }
 ```
 
@@ -361,7 +358,7 @@ Data:
     attachments: string[], // URL (file:// is allowed)
     threadID: string,
     replyMessageID?: string,
-    ...additionalDataModuleDefined
+    ... // additional data is module-defined.
 }
 ```
 
@@ -370,6 +367,88 @@ Return:
 {
     success: boolean,
     messageID: string,
-    ...additionalDataModuleDefined
+    ... // additional data is module-defined.
 }
 ```
+
+### 5.2. Database (module type = "database")
+
+#### **5.2.1. Connect database**
+
+Data: module-defined
+
+Return:
+```ts
+{
+    success: boolean
+}
+```
+
+#### **5.2.2. Get data**
+
+Data:
+```ts
+{
+    table: string,
+    key: string
+}
+```
+
+Return: data in that location
+
+#### **5.2.3. Set data**
+
+Data:
+```ts
+{
+    table: string,
+    key: string,
+    value: any
+}
+```
+
+Return: 
+```ts
+{
+    success: boolean
+}
+```
+
+#### **5.2.4. Delete data**
+
+Data: 
+```ts
+{
+    table: string,
+    key: string
+}
+```
+
+Return:
+```ts
+{
+    success: boolean
+}
+```
+
+#### **5.2.5. Delete table**
+
+Data:
+```ts
+{
+    table: string
+}
+```
+
+Return:
+```ts
+{
+    success: boolean
+}
+```
+
+#### **5.2.6. Disconnect database**
+
+Data: none
+
+Return: none
