@@ -1,7 +1,7 @@
 # NOCOM_BOT Module Specification
 
-Version: v0r3 (draft)<br>
-Last updated: 14/10/2021
+Version: v0r4 (draft)<br>
+Last updated: 19/10/2021
 
 ## 1. Overview
 
@@ -78,7 +78,7 @@ Module MUST be packed in ZIP with `module.json` describing the type of Module, a
         }
     }
     executableArgs?: string, // Only required if type = "executable"
-    transplier?: string, // Only required if type = "code-src", describing how to execute the source code.
+    transplier?: string, // Only required if type = "code-src", describing how  to execute the source code.
     autoRestart: boolean
 }
 ```
@@ -277,11 +277,52 @@ Data: none
 
 Return: `null`
 
+### 4.5. Register event hook (`register_event_hook`)
+
+Data: 
+```ts
+{
+    callbackFunction: string,
+    eventName: string,
+    downloadBufferFrom: number // timestamp
+}
+```
+
+Return:
+```ts
+{
+    success: boolean
+}
+```
+
+For more information, see 6.
+
+### 4.6. Unregister event hook (`unregister_event_hook`)
+
+Data:
+```ts
+{
+    callbackFunction: string,
+    eventName: string
+}
+```
+
+Return:
+```ts
+{
+    success: boolean
+}
+```
+
+For more information, see 6.
+
 ## 5. Application-specific API call
 
 > Note: If you are creating an interface that is using the module types defined below, you MUST implement all API call to maintain compatibility. Additional API commands MAY be defined if Module needs that.
 
 ### 5.1. Interface handler (module type = "interface")
+
+> Note: Only one instance per interface will be created. The Core will expect the interface handler to handle multiple accounts.
 
 #### **5.1.1. Login (`login`)**
 
@@ -297,6 +338,7 @@ Return:
 ```ts
 {
     success: boolean,
+    interfaceID: number,
     accountName: string,
     rawAccountID: string,
     formattedAccountID: string,
@@ -452,3 +494,11 @@ Return:
 Data: none
 
 Return: none
+
+## 6. Events
+
+Sometimes you need to broadcast to a lot of modules interested in a topic without knowing which modules subscribed. This is where Events come in.
+
+Events is part of the Core module. To register/unregister an event, use API call 4.5 and 4.6.
+
+TBD.
