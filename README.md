@@ -1,7 +1,7 @@
 # NOCOM_BOT Module Specification
 
-Version: v0r4 (draft)<br>
-Last updated: 19/10/2021
+Version: v0r5 (draft)<br>
+Last updated: 20/10/2021
 
 ## 1. Overview
 
@@ -316,6 +316,23 @@ Return:
 
 For more information, see 6.
 
+### 4.7. Send events
+
+Data:
+```ts
+{
+    eventName: string,
+    data: any
+}
+```
+
+Return:
+```ts
+{
+    hasSubscribers: boolean
+}
+```
+
 ## 5. Application-specific API call
 
 > Note: If you are creating an interface that is using the module types defined below, you MUST implement all API call to maintain compatibility. Additional API commands MAY be defined if Module needs that.
@@ -499,6 +516,15 @@ Return: none
 
 Sometimes you need to broadcast to a lot of modules interested in a topic without knowing which modules subscribed. This is where Events come in.
 
-Events is part of the Core module. To register/unregister an event, use API call 4.5 and 4.6.
+Events is part of the Core module. To register/unregister an event, use API call 4.5 and 4.6. Use API call 4.7 to send events.
+
+The callback API will be called from Core with the following data when a module send an event:
+```ts
+{
+    calledFrom: string, // module ID
+    eventName: string,
+    eventData: any
+}
+```
 
 TBD.
