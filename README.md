@@ -1,7 +1,7 @@
 # NOCOM_BOT Module Specification
 
-Version: v0r5 (draft)<br>
-Last updated: 20/10/2021
+Version: v0r6 (draft)<br>
+Last updated: 21/10/2021
 
 ## 1. Overview
 
@@ -283,8 +283,7 @@ Data:
 ```ts
 {
     callbackFunction: string,
-    eventName: string,
-    downloadBufferFrom: number // timestamp
+    eventName: string
 }
 ```
 
@@ -316,7 +315,7 @@ Return:
 
 For more information, see 6.
 
-### 4.7. Send events
+### 4.7. Send event (`send_event`)
 
 Data:
 ```ts
