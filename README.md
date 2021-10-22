@@ -1,7 +1,7 @@
 # NOCOM_BOT Module Specification
 
-Version: v0r6 (draft)<br>
-Last updated: 21/10/2021
+Version: v0r7 (draft)<br>
+Last updated: 22/10/2021
 
 ## 1. Overview
 
@@ -332,6 +332,47 @@ Return:
 }
 ```
 
+### 4.8. Register plugin (`register_plugin`)
+
+> Note: This API is intended for plugin handlers (or self-hosted plugin-like Module) only.
+
+Data:
+```ts
+{
+    pluginName: string,
+    namespace: string,
+    version: string,
+    author: string
+}
+```
+
+Return:
+```ts
+{
+    conflict: boolean
+}
+```
+
+> Note: If namespace is conflicted, it will not be registered, and other plugins will not be able to call function on that plugin.
+
+### 4.9. Unregister plugin (`unregister_plugin`)
+
+> Note: This API is intended for plugin handlers (or self-hosted plugin-like Module) only.
+
+Data:
+```ts
+{
+    namespace: string
+}
+```
+
+Return: 
+```ts
+{
+    success: boolean
+}
+```
+
 ## 5. Application-specific API call
 
 > Note: If you are creating an interface that is using the module types defined below, you MUST implement all API call to maintain compatibility. Additional API commands MAY be defined if Module needs that.
@@ -431,7 +472,7 @@ Return:
 
 ### 5.2. Database (module type = "database")
 
-#### **5.2.1. Connect database**
+#### **5.2.1. Connect database (`connect_db`)**
 
 Data: module-defined
 
@@ -442,7 +483,7 @@ Return:
 }
 ```
 
-#### **5.2.2. Get data**
+#### **5.2.2. Get data (`get_data`)**
 
 Data:
 ```ts
@@ -454,7 +495,7 @@ Data:
 
 Return: data in that location
 
-#### **5.2.3. Set data**
+#### **5.2.3. Set data (`set_data`)**
 
 Data:
 ```ts
@@ -472,7 +513,7 @@ Return:
 }
 ```
 
-#### **5.2.4. Delete data**
+#### **5.2.4. Delete data (`delete_data`)**
 
 Data: 
 ```ts
@@ -489,7 +530,7 @@ Return:
 }
 ```
 
-#### **5.2.5. Delete table**
+#### **5.2.5. Delete table (`delete_table`)**
 
 Data:
 ```ts
@@ -505,11 +546,138 @@ Return:
 }
 ```
 
-#### **5.2.6. Disconnect database**
+#### **5.2.6. Disconnect database (`disconnect_db`)**
 
 Data: none
 
 Return: none
+
+### 5.3. Plugins handler (module type = "pl_handler")
+
+> Note: Not to be confused with Module! Plugin is used to add features in more secure, easier way. Plugin is handled by plugin handler, not Core.
+
+#### **5.3.1. Check plugin (`check_plugin`)**
+
+Data:
+```ts
+{
+    filename?: string,
+    pathname?: string
+}
+```
+
+Return: 
+```ts
+{
+    compatible: boolean,
+    pluginName?: string,
+    namespace?: string,
+    version?: string,
+    author?: string
+}
+```
+
+#### **5.3.2. Check plugin (`check_plugin`)**
+
+Data:
+```ts
+{
+    filename?: string,
+    pathname?: string
+}
+```
+
+Return: 
+```ts
+{
+    loaded: boolean,
+    error?: string,
+    pluginName?: string,
+    namespace?: string,
+    version?: string,
+    author?: string
+}
+```
+
+> Note: Plugin handler MUST register plugin (4.8) even when Core call this API.
+
+#### **5.3.3. Unload plugin (`unload_plugin`)**
+
+Data:
+```ts
+{
+    namespace: string
+}
+```
+
+Return: 
+```ts
+{
+    error?: string
+}
+```
+
+> Note: Plugin handler MUST unregister plugin (4.9) even when Core call this API.
+
+#### **5.3.4. Call function inside plugin (`plugin_call`)**
+
+Data:
+```ts
+{
+    namespace: string,
+    funcName: string,
+    args: any[]
+}
+```
+
+Return: 
+```ts
+{
+    error?: string,
+    returnData: any
+}
+```
+
+### 5.4. Command handler (module type = "cmd_handler")
+
+> Note: Namespaced commands call will automaticially redirect to correct plugin (as Command handler already knows what module handle that namespace).
+
+#### **5.4.1. Register command (`register_cmd`)**
+
+Data:
+```ts
+{
+    namespace: string,
+    command: string,
+    funcName: string
+}
+```
+
+Return:
+```ts
+{
+    success: boolean,
+    error?: string
+}
+```
+
+#### **5.4.2. Unregister command (`unregister_cmd`)**
+
+Data:
+```ts
+{
+    namespace: string,
+    command: string
+}
+```
+
+Return:
+```ts
+{
+    success: boolean,
+    error?: string
+}
+```
 
 ## 6. Events
 
