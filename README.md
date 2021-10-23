@@ -1,7 +1,7 @@
 # NOCOM_BOT Module Specification
 
-Version: v0r7 (draft)<br>
-Last updated: 22/10/2021
+Version: v0r8 (draft)<br>
+Last updated: 23/10/2021
 
 ## 1. Overview
 
@@ -577,7 +577,7 @@ Return:
 }
 ```
 
-#### **5.3.2. Check plugin (`check_plugin`)**
+#### **5.3.2. Load plugin (`load_plugin`)**
 
 Data:
 ```ts
