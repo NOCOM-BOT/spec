@@ -1,7 +1,7 @@
 # NOCOM_BOT Module Specification
 
-Version: v0r8 (draft)<br>
-Last updated: 23/10/2021
+Version: v0r9 (draft)<br>
+Last updated: 24/10/2021
 
 ## 1. Overview
 
@@ -387,7 +387,7 @@ Data:
 ```ts
 {
     interfaceID: number,
-    interfaceData: "module defined"
+    loginData: any // module defined
 }
 ```
 
@@ -472,14 +472,23 @@ Return:
 
 ### 5.2. Database (module type = "database")
 
+> Note: Only one instance per database type will be created. The Core will expect the database module to handle multiple connections.
+
 #### **5.2.1. Connect database (`connect_db`)**
 
-Data: module-defined
+Data: 
+```ts
+{
+    databaseID: number,
+    params: any // module-defined
+}
+```
 
 Return:
 ```ts
 {
-    success: boolean
+    success: boolean,
+    databaseID: number
 }
 ```
 
@@ -488,18 +497,26 @@ Return:
 Data:
 ```ts
 {
+    databaseID: number,
     table: string,
     key: string
 }
 ```
 
-Return: data in that location
+Return: 
+```ts
+{
+    success: boolean,
+    data: any
+}
+```
 
 #### **5.2.3. Set data (`set_data`)**
 
 Data:
 ```ts
 {
+    databaseID: number,
     table: string,
     key: string,
     value: any
@@ -518,6 +535,7 @@ Return:
 Data: 
 ```ts
 {
+    databaseID: number,
     table: string,
     key: string
 }
@@ -535,6 +553,7 @@ Return:
 Data:
 ```ts
 {
+    databaseID: number,
     table: string
 }
 ```
@@ -548,9 +567,14 @@ Return:
 
 #### **5.2.6. Disconnect database (`disconnect_db`)**
 
-Data: none
+Data: 
+```ts
+{
+    databaseID: number
+}
+```
 
-Return: none
+Return: `null`
 
 ### 5.3. Plugins handler (module type = "pl_handler")
 
