@@ -1,7 +1,7 @@
 # NOCOM_BOT Module Specification
 
-Version: v0r9 (draft)<br>
-Last updated: 24/10/2021
+Version: v0r10 (draft)<br>
+Last updated: 26/10/2021
 
 ## 1. Overview
 
@@ -208,7 +208,7 @@ There are 3 possible responses for the target Module:
     "type": "api_sendresponse",
     "response_to":
                     
-                 "<source Module ID>",
+                 "<source Module  ID>",
     "exist": true,
     "error": "...",
     "data": null,
@@ -664,7 +664,7 @@ Return:
 
 ### 5.4. Command handler (module type = "cmd_handler")
 
-> Note: Namespaced commands call will automaticially redirect to correct plugin (as Command handler already knows what module handle that namespace).
+> Note: Namespaced commands call will automaticially redirect to correct plugin (as Command handler already knows what module handle that namespace). 
 
 #### **5.4.1. Register command (`register_cmd`)**
 
@@ -673,7 +673,8 @@ Data:
 {
     namespace: string,
     command: string,
-    funcName: string
+    funcName: string,
+    funcDescAPI: string
 }
 ```
 
@@ -700,6 +701,23 @@ Return:
 {
     success: boolean,
     error?: string
+}
+```
+
+#### **5.4.2. Get registered command list (`cmd_list`)**
+
+Data: none
+
+Return:
+```ts
+{
+    commands: {
+        namespace: string,
+        command: string,
+        funcName: string,
+        funcDescAPI: string
+    }[],
+    count: number
 }
 ```
 
