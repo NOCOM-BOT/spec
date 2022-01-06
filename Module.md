@@ -1,6 +1,6 @@
 # NOCOM_BOT Module Specification
 
-Version: v1r0<br>
+Version: v1r1<br>
 Last updated: 06/01/2022
 
 ## 1. Overview
@@ -457,12 +457,31 @@ Return:
 
 > Note: Only one instance per database type will be created. The Core will expect the database module to handle multiple connections.
 
-#### **5.2.1. Connect database (`connect_db`)**
+#### **5.2.1. Get default config (`default_cfg`)**
+
+Data: none
+
+Return: default parameter for connecting to database
+
+#### **5.2.2. List connected database (`list_db`)**
+
+Data: none
+
+Return: 
+```ts
+{
+    databaseID: number,
+    databaseName: string
+}[]
+```
+
+#### **5.2.3. Connect database (`connect_db`)**
 
 Data: 
 ```ts
 {
     databaseID: number,
+    databaseName: string,
     params: any // module-defined
 }
 ```
@@ -475,7 +494,7 @@ Return:
 }
 ```
 
-#### **5.2.2. Get data (`get_data`)**
+#### **5.2.4. Get data (`get_data`)**
 
 Data:
 ```ts
@@ -494,7 +513,7 @@ Return:
 }
 ```
 
-#### **5.2.3. Set data (`set_data`)**
+#### **5.2.5. Set data (`set_data`)**
 
 Data:
 ```ts
@@ -513,7 +532,7 @@ Return:
 }
 ```
 
-#### **5.2.4. Delete data (`delete_data`)**
+#### **5.2.6. Delete data (`delete_data`)**
 
 Data: 
 ```ts
@@ -531,7 +550,7 @@ Return:
 }
 ```
 
-#### **5.2.5. Delete table (`delete_table`)**
+#### **5.2.7. Delete table (`delete_table`)**
 
 Data:
 ```ts
@@ -548,7 +567,7 @@ Return:
 }
 ```
 
-#### **5.2.6. Disconnect database (`disconnect_db`)**
+#### **5.2.8. Disconnect database (`disconnect_db`)**
 
 Data: 
 ```ts
