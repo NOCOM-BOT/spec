@@ -189,9 +189,7 @@ There are 3 possible responses for the target Module:
 ```json
 {
     "type": "api_sendresponse",
-    "response_to":
-                    
-                 "<source Module  ID>",
+    "response_to": "<source Module ID>",
     "exist": true,
     "error": "...",
     "data": null,
