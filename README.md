@@ -1,7 +1,7 @@
 # NOCOM_BOT Module Specification
 
-Version: v0r10 (draft)<br>
-Last updated: 26/10/2021
+Version: v1r0<br>
+Last updated: 06/01/2022
 
 ## 1. Overview
 
@@ -45,7 +45,7 @@ Module MUST be packed in ZIP with `module.json` describing the type of Module, a
         "executable" | // If Module is an executable (usually compiled from other languages than JS)
         "code-src" // If Module is source code writen in other languages
     ),
-    shortName: string,
+    namespace: string,
     communicationProtocol: (
         "node_ipc" | // process.send, process.on("message", ...)
         "node_worker" | // require("worker_threads")
@@ -53,28 +53,8 @@ Module MUST be packed in ZIP with `module.json` describing the type of Module, a
     ),
     scriptSrc?: string, // Only required if type = "script", describing the entry point location relative to ZIP file root.
     executable?: { // Only required if type = "executable"
-        [platform: (
-            "win32" | 
-            "aix" | 
-            "darwin" | 
-            "freebsd" | 
-            "linux" | 
-            "openbsd" | 
-            "sunos"
-        )]: {
-            [cpuArch: (
-                "arm" |
-                "arm64" |
-                "ia32" |
-                "mips" |
-                "mipsel" |
-                "ppc" |
-                "ppc64" |
-                "s390" |
-                "s390x"
-                "x32" | 
-                "x64"
-            )]: string // Path relative to ZIP file root.
+        [platform: typeof NodeJS.os.platform() /* [1] */]: {
+            [cpuArch: typeof NodeJS.os.arch() /* [2] */]: string // Path relative to ZIP file root.
         }
     }
     executableArgs?: string, // Only required if type = "executable"
@@ -83,7 +63,10 @@ Module MUST be packed in ZIP with `module.json` describing the type of Module, a
 }
 ```
 
-Please note that, when Module is being executed, all content inside the ZIP file will be extracted to `<Core's current working directory>/.data/temp/runtime-${random hex}/${module namespace}/`, and the Module's current working directory (if type = "package" or "executable" or "code-src") will be set to that directory.
+[1]: https://nodejs.org/dist/latest-v17.x/docs/api/os.html#osplatform
+[2]: https://nodejs.org/dist/latest-v17.x/docs/api/os.html#osarch
+
+Please note that, when Module is being executed, all content inside the ZIP file will be extracted to `<profile directory>/temp/${random hex}/${module namespace}/`, and the Module's current working directory (if type is "package", "executable" or "code-src") will be set to that directory.
 
 ### 3.2. Core-Module communication protocol
 
@@ -126,7 +109,7 @@ In return, Module MUST return a message with data described below in 30 seconds 
     "type": "handshake_success",
     "module": "<module type that Module is acting>",
     "module_displayname": "<user-friendly name of the module (example: MongoDB database, Discord interface, ...)>",
-    "module_shortname": "<MUST match with the JSON>"
+    "module_namespace": "<MUST match with the JSON>"
 }
 ```
 
@@ -641,8 +624,6 @@ Return:
 }
 ```
 
-> Note: Plugin handler MUST unregister plugin (4.9) even when Core call this API.
-
 #### **5.3.4. Call function inside plugin (`plugin_call`)**
 
 Data:
@@ -735,5 +716,3 @@ The callback API will be called from Core with the following data when a module 
     eventData: any
 }
 ```
-
-TBD.
