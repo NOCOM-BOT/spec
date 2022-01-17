@@ -1,7 +1,7 @@
 # NOCOM_BOT Module Specification
 
-Version: v1r1<br>
-Last updated: 06/01/2022
+Version: v1r2p0<br>
+Last updated: 17/01/2022
 
 ## 1. Overview
 
@@ -148,6 +148,8 @@ If Module received a challenge, it MUST response back a message described below.
 ```
 
 ### 3.5. API call/response
+
+> Note: Every API call is async, you should not block thread to wait for a call to return.
 
 Module can call API commands of other modules. When Module want to call an API command, Module MUST send a message:
 
@@ -351,6 +353,24 @@ Return:
 ```ts
 {
     success: boolean
+}
+```
+
+### 4.10. Ask for operator's input (`prompt`)
+
+Data:
+```ts
+{
+    promptInfo: string,
+    promptType: "string" | "yes-no",
+    defaultValue?: string | boolean
+}
+```
+
+Return:
+```ts
+{
+    data: string | boolean
 }
 ```
 
