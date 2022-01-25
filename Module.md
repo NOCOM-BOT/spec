@@ -1,7 +1,7 @@
 # NOCOM_BOT Module Specification
 
-Version: v1r2p0<br>
-Last updated: 17/01/2022
+Version: v1r3p0<br>
+Last updated: 25/01/2022
 
 ## 1. Overview
 
@@ -373,6 +373,34 @@ Return:
     data: string | boolean
 }
 ```
+
+### 4.11. Logging (`log`)
+
+Data:
+```ts
+{
+    level: "critical" | "error" | "warn" | "info" | "debug",
+    data: any
+}
+```
+
+Return: `null`
+
+### 4.12. Wait for module (`wait_for_module`)
+
+Data:
+```ts
+{
+    moduleNamespace: string,
+    timeout?: number
+}
+```
+
+Return (on loaded): `true`
+
+Return (timed out): `false`
+
+> Note: Timeout option is optional, if unspecified then it will be Infinity (no timeout)
 
 ## 5. Application-specific API call
 
