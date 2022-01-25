@@ -1,7 +1,7 @@
 # NOCOM_BOT A-Type Plugin Specification
 
-Version: v0r1p0 (draft)<br>
-Last updated: 23/01/2022
+Version: v0r2p0 (draft)<br>
+Last updated: 25/01/2022
 
 ## 1. Overview
 
@@ -59,7 +59,8 @@ The content of `plugin.json` file SHOULD be following this format:
 
 ```ts
 {
-    formatVersion: 0,
+    formatVersion: 0,1 bình luận
+
     subclass: (0 | 1), // See note [1]
     entryPoint: string, // can be redefined, but SHOULD be entry.js / entry.ts
     author: string,
@@ -93,7 +94,7 @@ Before using, you MUST import the function module by inserting this command on t
 import * as NOCOM_AType from "@nocom_bot/nocom-atype-v0";
 ```
 
-The `NOCOM_AType` variable will have these functions:
+The `NOCOM_AType` variable will have these keys:
 
 ```ts
 function verifyPlugin(allow: boolean): void
@@ -118,10 +119,18 @@ function registerCommand(commandName: string, commandCallback: (data: {
 }>): Promise<boolean>
 function registerCommandFuncPlugin(commandName: string, funcName: string): Promise<boolean>
 function exit(exit_code: number, exit_reason?: string): void
+function waitForModule(moduleNamespace: string, timeout?: number): Promise<boolean>
+const log = {
+    critical: (...data) => Promise<void>,
+    error: (...data) => Promise<void>,
+    warn: (...data) => Promise<void>,
+    info: (...data) => Promise<void>,
+    debug: (...data) => Promise<void>,
+}
 ```
 
 ### 4.4. tsconfig.json (subclass 1 only)
 
-See [https://www.typescriptlang.org/docs/handbook/tsconfig-json.html](this) for the format of this file.
+See [this](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html) for the format of this file.
 
 (TBD)
