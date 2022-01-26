@@ -1,7 +1,7 @@
 # NOCOM_BOT A-Type Plugin Specification
 
-Version: v0r2p0 (draft)<br>
-Last updated: 25/01/2022
+Version: v0r3p0 (draft)<br>
+Last updated: 27/01/2022
 
 ## 1. Overview
 
@@ -86,7 +86,22 @@ Depending on the subclass, you MUST write either JavaScript or TypeScript code i
 
 The `import` keyword can also be used to import code in other files relative to the current file root.
 
-Top-level `await` is **enabled** and **supported**.
+Some features that are in stage 3, or not enabled by default (as of 27/01/2022 - ES2022) are **enabled**:
+
+- Top-level `await`
+```
+self-explantory
+```
+
+- JSON modules importing
+```ts
+import pluginParam from "./param.json" assert { type: "json" }
+```
+
+- WebAssembly modules importing
+```ts
+import * as M from './module.wasm';
+```
 
 Before using, you MUST import the function module by inserting this command on the top of entry file (other files are not required to import this file, unless it also needs to use function from this file):
 
