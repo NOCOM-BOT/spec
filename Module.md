@@ -1,7 +1,7 @@
 # NOCOM_BOT Module Specification
 
-Version: v1r4p0<br>
-Last updated: 25/01/2022
+Version: v1r5p0<br>
+Last updated: 30/01/2022
 
 ## 1. Overview
 
@@ -380,6 +380,7 @@ Data:
 ```ts
 {
     level: "critical" | "error" | "warn" | "info" | "debug",
+    namespace: string,
     data: any[]
 }
 ```
