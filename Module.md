@@ -1,13 +1,13 @@
 # NOCOM_BOT Module Specification
 
-Version: v1r7p0<br>
+Version: v1r7p1<br>
 Last updated: 30/01/2022
 
 ## 1. Overview
 
 NOCOM_BOT is a powerful, flexible chatbot framework that allow bot developer to extends its functionality using modules and plugins. 
 
-Because of its flexible nature, there should be a specification to allow execution and communication with different modules. This specification aim to give modules a way to be executed and communicate using pre-defined format.
+Because of its flexibshortNamele nature, there should be a specification to allow execution and communication with different modules. This specification aim to give modules a way to be executed and communicate using pre-defined format.
 
 ## 2. Terms and Definitions
 
@@ -394,7 +394,7 @@ Data:
 ```ts
 {
     moduleNamespace: string,
-    timeout?: number
+    timeout?: number //ms
 }
 ```
 
