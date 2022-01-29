@@ -1,6 +1,6 @@
 # NOCOM_BOT Module Specification
 
-Version: v1r6p0<br>
+Version: v1r7p0<br>
 Last updated: 30/01/2022
 
 ## 1. Overview
@@ -227,7 +227,7 @@ When the target Module has responded, source Module will receive an API response
 
 ## 4. Core API call
 
-> Note: The Core's API will be available at module ID `core` to not complicate things up.
+> Note: The Core's API will be available at module ID `core` and namespace `core` to not complicate things up.
 
 ### 4.1. Get registered modules (`get_registered_modules`)
 
@@ -237,7 +237,7 @@ Return:
 ```ts
 {
     moduleID: string,
-    shortname: string,
+    namespace: string,
     displayname: string,
     running: boolean
 }[]
