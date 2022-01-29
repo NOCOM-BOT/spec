@@ -1,6 +1,6 @@
 # NOCOM_BOT Module Specification
 
-Version: v1r5p0<br>
+Version: v1r6p0<br>
 Last updated: 30/01/2022
 
 ## 1. Overview
@@ -238,7 +238,8 @@ Return:
 {
     moduleID: string,
     shortname: string,
-    displayname: string
+    displayname: string,
+    running: boolean
 }[]
 ```
 
