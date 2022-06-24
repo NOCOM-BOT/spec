@@ -1,7 +1,7 @@
 # NOCOM_BOT A-Type Plugin Specification
 
-Version: v0r3p0 (draft)<br>
-Last updated: 27/01/2022
+Version: v0r4p0 (draft)<br>
+Last updated: 24/06/2022
 
 ## 1. Overview
 
@@ -59,8 +59,7 @@ The content of `plugin.json` file SHOULD be following this format:
 
 ```ts
 {
-    formatVersion: 0,1 bình luận
-
+    formatVersion: 0,
     subclass: (0 | 1), // See note [1]
     entryPoint: string, // can be redefined, but SHOULD be entry.js / entry.ts
     author: string,
@@ -86,21 +85,11 @@ Depending on the subclass, you MUST write either JavaScript or TypeScript code i
 
 The `import` keyword can also be used to import code in other files relative to the current file root.
 
-Some features that are in stage 3, or not enabled by default (as of 27/01/2022 - ES2022) are **enabled**:
+Some features that are in stage 3, and/or not enabled by default (as of 24/06/2022 - ES2022) are **enabled**:
 
-- Top-level `await`
-```
-self-explantory
-```
-
-- JSON modules importing
+- JSON modules importing (since node 17.5)
 ```ts
 import pluginParam from "./param.json" assert { type: "json" }
-```
-
-- WebAssembly modules importing
-```ts
-import * as M from './module.wasm';
 ```
 
 Before using, you MUST import the function module by inserting this command on the top of entry file (other files are not required to import this file, unless it also needs to use function from this file):
@@ -116,22 +105,26 @@ function verifyPlugin(allow: boolean): void
 function callFuncPlugin(namespace: string, funcName: string, ...args: any): Promise<any>
 function registerFuncPlugin(funcName: string, callback: Function): Promise<boolean>
 function callAPI(moduleID: string, cmd: string, value: any): Promise<any>
-function registerCommand(commandName: string, commandCallback: (data: {
-    cmd: string,
-    args: string[],
-    attachments: {
-        filename: string,
-        url: string // http(s)/file protocol is possible.
-    }[],
-    additionalInterfaceData?: any
-}) => Promise<{
-    content: string,
-    attachments: {
-        filename?: string,
-        data: Buffer | string // if string then point to url, http(s)/file protocol allowed
-    }[],
-    additionalInterfaceData?: any
-}>): Promise<boolean>
+function registerCommand(
+    commandName: string, 
+    commandCallback: (data: {
+        cmd: string,
+        args: string[],
+        attachments: {
+            filename: string,
+            url: string // http(s)/file protocol is possible.
+        }[],
+        additionalInterfaceData?: any
+    }) => Promise<{
+        content: string,
+        attachments: {
+            filename?: string,
+            data: Buffer | string // if string then point to url, http(s)/file protocol allowed
+        }[],
+        additionalInterfaceData?: any
+    }>, 
+    compatibility: string[] // if this is an empty array then this indicates every messages platform is supported, otherwise indicates that this command only supports specific platform.
+): Promise<boolean>
 function registerCommandFuncPlugin(commandName: string, funcName: string): Promise<boolean>
 function exit(exit_code: number, exit_reason?: string): void
 function waitForModule(moduleNamespace: string, timeout?: number): Promise<boolean>
@@ -141,6 +134,7 @@ const log = {
     warn: (...data) => Promise<void>,
     info: (...data) => Promise<void>,
     debug: (...data) => Promise<void>,
+    verbose: (...data) => Promise<void>
 }
 ```
 
