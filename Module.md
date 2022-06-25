@@ -1,6 +1,6 @@
 # NOCOM_BOT Module Specification
 
-Version: v1r7p2<br>
+Version: v1r8p0<br>
 Last updated: 30/01/2022
 
 ## 1. Overview
@@ -98,7 +98,8 @@ The Core will send a message to Module with this data to initialize handshake:
 {
     "type": "handshake",
     "id": "Module's instance ID",
-    "protocol_version": "1"
+    "protocol_version": "1",
+    "config": {} // user-defined config
 }
 ```
 
@@ -529,7 +530,6 @@ Data:
 ```ts
 {
     databaseID: number,
-    databaseName: string,
     params: any // module-defined
 }
 ```
