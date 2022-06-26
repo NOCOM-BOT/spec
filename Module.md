@@ -1,7 +1,7 @@
 # NOCOM_BOT Module Specification
 
-Version: v1r8p0<br>
-Last updated: 30/01/2022
+Version: v1r9p0<br>
+Last updated: 26/06/2022
 
 ## 1. Overview
 
@@ -404,6 +404,12 @@ Return (on loaded): `true`
 Return (timed out): `false`
 
 > Note: Timeout option is optional, if unspecified then it will be Infinity (no timeout)
+
+### 4.13. Get data folder location (`get_data_folder`)
+
+Data: none
+
+Return: string with data folder location
 
 ## 5. Application-specific API call
 
