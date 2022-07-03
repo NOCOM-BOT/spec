@@ -1,7 +1,7 @@
 # NOCOM_BOT Module Specification
 
-Version: v1r9p0<br>
-Last updated: 26/06/2022
+Version: v1r10p0<br>
+Last updated: 03/07/2022
 
 ## 1. Overview
 
@@ -410,6 +410,12 @@ Return (timed out): `false`
 Data: none
 
 Return: string with data folder location
+
+### 4.14. Get temp folder location (`get_temp_folder`)
+
+Data: none
+
+Return: string with temp folder location
 
 ## 5. Application-specific API call
 
