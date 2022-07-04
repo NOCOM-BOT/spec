@@ -1,7 +1,7 @@
 # NOCOM_BOT Module Specification
 
-Version: v1r10p0<br>
-Last updated: 03/07/2022
+Version: v1r11p0<br>
+Last updated: 04/07/2022
 
 ## 1. Overview
 
@@ -381,7 +381,7 @@ Return:
 Data:
 ```ts
 {
-    level: "critical" | "error" | "warn" | "info" | "debug",
+    level: "verbose" | "critical" | "error" | "warn" | "info" | "debug",
     namespace: string,
     data: any[]
 }
@@ -416,6 +416,23 @@ Return: string with data folder location
 Data: none
 
 Return: string with temp folder location
+
+### 4.15. Install NPM/PNPM dependencies (`pnpm_install`)
+
+Data:
+```ts
+{
+    path: string
+}
+```
+
+Return:
+```ts
+{
+    success: boolean,
+    error?: string
+}
+```
 
 ## 5. Application-specific API call
 
