@@ -1,7 +1,7 @@
 # NOCOM_BOT A-Type Plugin Specification
 
-Version: v0r4p0 (draft)<br>
-Last updated: 24/06/2022
+Version: v0r5p0 (draft)<br>
+Last updated: 12/07/2022
 
 ## 1. Overview
 
@@ -95,7 +95,7 @@ import pluginParam from "./param.json" assert { type: "json" }
 Before using, you MUST import the function module by inserting this command on the top of entry file (other files are not required to import this file, unless it also needs to use function from this file):
 
 ```ts
-import * as NOCOM_AType from "@nocom_bot/nocom-atype-v0";
+import * as NOCOM_AType from "@nocom_bot/nocom-atype-support";
 ```
 
 The `NOCOM_AType` variable will have these keys:

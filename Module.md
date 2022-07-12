@@ -1,7 +1,7 @@
 # NOCOM_BOT Module Specification
 
-Version: v1r11p0<br>
-Last updated: 04/07/2022
+Version: v1r12p0<br>
+Last updated: 12/07/2022
 
 ## 1. Overview
 
@@ -423,6 +423,24 @@ Data:
 ```ts
 {
     path: string
+}
+```
+
+Return:
+```ts
+{
+    success: boolean,
+    error?: string
+}
+```
+
+### 4.16. Install specific NPM/PNPM dependency (`pnpm_install_specific`)
+
+Data:
+```ts
+{
+    path: string,
+    dep: string
 }
 ```
 
