@@ -1,6 +1,6 @@
 # NOCOM_BOT A-Type Plugin Specification
 
-Version: v0r5p0 (draft)<br>
+Version: v0r6p0 (draft)<br>
 Last updated: 12/07/2022
 
 ## 1. Overview
@@ -42,8 +42,8 @@ plugin.zip (root)
 ├─ jsfunc2.js
 ├─ plugin.json (*)
 ├─ tsconfig.json (subclass 1 only)
-├─ package.json
-├─ pnpm-lock.json
+├─ package.json (*)
+├─ pnpm-lock.json (*)
 ```
 
 Note: 
@@ -73,7 +73,7 @@ The content of `plugin.json` file SHOULD be following this format:
 
 ### 4.2. package.json + pnpm-lock.json
 
-This file is optional, but recommended to have, especially when you are going to use extenal node modules from npm or GitHub.
+These 2 files MUST be present.
 
 Plugin resolver will automaticially install **all** dependencies found in these two files, and the packages installed can be used like usual (`import something from "package"`)
 
