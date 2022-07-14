@@ -1,7 +1,7 @@
 # NOCOM_BOT A-Type Plugin Specification
 
-Version: v0r6p0 (draft)<br>
-Last updated: 12/07/2022
+Version: v0r7p0 (draft)<br>
+Last updated: 15/07/2022
 
 ## 1. Overview
 
@@ -40,7 +40,6 @@ plugin.zip (root)
 ├─ entry.js (!)
 ├─ jsfunc1.js
 ├─ jsfunc2.js
-├─ plugin.json (*)
 ├─ tsconfig.json (subclass 1 only)
 ├─ package.json (*)
 ├─ pnpm-lock.json (*)
@@ -57,6 +56,16 @@ Note:
 
 The content of `plugin.json` file SHOULD be following this format:
 
+[1]: Subclass MUST be 0 if you are writing in JavaScript (A0), or MUST be 1 if you are writing in TypeScript (A1).
+
+### 4.1. package.json + pnpm-lock.json
+
+These 2 files MUST be present.
+
+Plugin resolver will automaticially install **all** dependencies found in these two files, and the packages installed can be used like usual (`import something from "package"`)
+
+Additionally, package.json MUST contains plugin metadata under key `NOCOM_AType_Metadata`:
+
 ```ts
 {
     formatVersion: 0,
@@ -69,17 +78,11 @@ The content of `plugin.json` file SHOULD be following this format:
 }
 ```
 
-[1]: Subclass MUST be 0 if you are writing in JavaScript (A0), or MUST be 1 if you are writing in TypeScript (A1).
-
-### 4.2. package.json + pnpm-lock.json
-
-These 2 files MUST be present.
-
-Plugin resolver will automaticially install **all** dependencies found in these two files, and the packages installed can be used like usual (`import something from "package"`)
+Example of package.json file can be found [https://github.com/NOCOM-BOT/plugin_base_A0/blob/main/package.json](here).
 
 Note that the A-type format specifically uses pnpm, and we recommended that you also uses pnpm in every project, even projects not related to this, as pnpm can saves your disk space.
 
-### 4.3. entry.js / entry.ts
+### 4.2. entry.js / entry.ts
 
 Depending on the subclass, you MUST write either JavaScript or TypeScript code in ES module format on this file. CommonJS format is disallowed in this plugin format.
 
@@ -138,7 +141,7 @@ const log = {
 }
 ```
 
-### 4.4. tsconfig.json (subclass 1 only)
+### 4.3. tsconfig.json (subclass 1 only)
 
 See [this](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html) for the format of this file.
 
