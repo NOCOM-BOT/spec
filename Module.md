@@ -1,6 +1,6 @@
 # NOCOM_BOT Module Specification
 
-Version: v1r13p0<br>
+Version: v1r13p1<br>
 Last updated: 20/07/2022
 
 ## 1. Overview
@@ -833,7 +833,7 @@ The callback API will be called from Core with the following data when a module 
 
 ### 6.1. Application-specific events
 
-#### **6.1.1. Message from bot users (`interface_message`)
+#### **6.1.1. Message from bot users (`interface_message`)**
 
 Data:
 ```ts
