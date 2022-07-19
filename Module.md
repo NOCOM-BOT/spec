@@ -1,6 +1,6 @@
 # NOCOM_BOT Module Specification
 
-Version: v1r13p1<br>
+Version: v1r14p0<br>
 Last updated: 20/07/2022
 
 ## 1. Overview
@@ -838,8 +838,7 @@ The callback API will be called from Core with the following data when a module 
 Data:
 ```ts
 {
-    cmd: string,
-    args: string[],
+    content: string,
     attachments: {
         filename: string,
         url: string // http(s)/file protocol is possible.
