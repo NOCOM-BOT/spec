@@ -1,7 +1,7 @@
 # NOCOM_BOT A-Type Plugin Specification
 
-Version: v0r7p0 (draft)<br>
-Last updated: 15/07/2022
+Version: v0r8p0 (draft)<br>
+Last updated: 20/07/2022
 
 ## 1. Overview
 
@@ -109,7 +109,8 @@ function callFuncPlugin(namespace: string, funcName: string, ...args: any): Prom
 function registerFuncPlugin(funcName: string, callback: Function): Promise<boolean>
 function callAPI(moduleID: string, cmd: string, value: any): Promise<any>
 function registerCommand(
-    commandName: string, 
+    commandName: string,
+    commandDescAPI: (lang: string, command: string) => Promise<string>,
     commandCallback: (data: {
         cmd: string,
         args: string[],
@@ -128,7 +129,7 @@ function registerCommand(
     }>, 
     compatibility: string[] // if this is an empty array then this indicates every messages platform is supported, otherwise indicates that this command only supports specific platform.
 ): Promise<boolean>
-function registerCommandFuncPlugin(commandName: string, funcName: string): Promise<boolean>
+function registerCommandFuncPlugin(commandName: string, funcDescAPI: string, funcName: string): Promise<boolean>
 function exit(exit_code: number, exit_reason?: string): void
 function waitForModule(moduleNamespace: string, timeout?: number): Promise<boolean>
 const log = {
