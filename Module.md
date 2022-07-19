@@ -1,7 +1,7 @@
 # NOCOM_BOT Module Specification
 
-Version: v1r12p0<br>
-Last updated: 12/07/2022
+Version: v1r13p0<br>
+Last updated: 20/07/2022
 
 ## 1. Overview
 
@@ -828,6 +828,25 @@ The callback API will be called from Core with the following data when a module 
     calledFrom: string, // module ID
     eventName: string,
     eventData: any
+}
+```
+
+### 6.1. Application-specific events
+
+#### **6.1.1. Message from bot users (`interface_message`)
+
+Data:
+```ts
+{
+    cmd: string,
+    args: string[],
+    attachments: {
+        filename: string,
+        url: string // http(s)/file protocol is possible.
+    }[],
+    interfaceHandlerName: string,
+    interfaceID: number,
+    additionalInterfaceData?: any
 }
 ```
 
