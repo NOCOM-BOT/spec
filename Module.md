@@ -1,6 +1,6 @@
 # NOCOM_BOT Module Specification
 
-Version: v1r14p0<br>
+Version: v1r15p0<br>
 Last updated: 20/07/2022
 
 ## 1. Overview
@@ -449,6 +449,26 @@ Return:
 {
     success: boolean,
     error?: string
+}
+```
+
+### 4.17. Get plugin namespace info (`get_plugin_namespace_info`)
+
+Data:
+```ts
+{
+    namespace: string
+}
+```
+
+Return:
+```ts
+{
+    exist: boolean,
+    pluginName?: string,
+    version?: string,
+    author?: string,
+    resolver?: string
 }
 ```
 
