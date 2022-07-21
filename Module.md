@@ -1,7 +1,7 @@
 # NOCOM_BOT Module Specification
 
-Version: v1r15p0<br>
-Last updated: 20/07/2022
+Version: v1r16p0<br>
+Last updated: 22/07/2022
 
 ## 1. Overview
 
@@ -819,7 +819,7 @@ Return:
 }
 ```
 
-#### **5.4.2. Get registered command list (`cmd_list`)**
+#### **5.4.3. Get registered command list (`cmd_list`)**
 
 Data: none
 
@@ -869,3 +869,37 @@ Data:
 }
 ```
 
+## 7. Extra specification for modules
+
+### 7.1. Plugins handler (module type = "pl_handler")
+
+If plugin handler register a command, the function behind MUST accept a call with this parameter/argument:
+
+```ts
+{
+    cmd: string,
+    args: string[],
+    attachments: {
+        filename: string,
+        url: string // http(s)/file protocol
+    }[],
+    messageID: string,
+    channelID: string,
+    originalContent: string,
+    prefix: string,
+    additionalInterfaceData?: any
+}
+```
+
+Function MUST return a response with this format, or return an error:
+
+```ts
+{
+    content: string,
+    attachments?: {
+        filename: string,
+        url: string // http(s)/file/base64-encoded data URI allowed
+    }[],
+    additionalInterfaceData?: any
+}
+```
