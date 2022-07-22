@@ -1,6 +1,6 @@
 # NOCOM_BOT Module Specification
 
-Version: v1r17p0<br>
+Version: v1r18p0<br>
 Last updated: 22/07/2022
 
 ## 1. Overview
@@ -554,7 +554,7 @@ Data:
 {
     content: string,
     attachments: string[], // URL (file:// is allowed)
-    threadID: string,
+    channelID: string,
     replyMessageID?: string,
     additionalInterfaceData: any // additional data is module-defined.
 }
