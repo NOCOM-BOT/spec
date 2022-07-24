@@ -1,7 +1,7 @@
 # NOCOM_BOT Module Specification
 
-Version: v1r18p0<br>
-Last updated: 22/07/2022
+Version: v1r19p0<br>
+Last updated: 24/07/2022
 
 ## 1. Overview
 
@@ -518,6 +518,7 @@ Return: `null`
 Data:
 ```ts
 {
+    interfaceID: number,
     userID: string
 }
 ```
@@ -535,6 +536,7 @@ Return:
 Data:
 ```ts
 {
+    interfaceID: number,
     channelID: string
 }
 ```
@@ -552,6 +554,7 @@ Return:
 Data:
 ```ts
 {
+    interfaceID: number,
     content: string,
     attachments: string[], // URL (file:// is allowed)
     channelID: string,
