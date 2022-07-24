@@ -1,6 +1,6 @@
 # NOCOM_BOT Module Specification
 
-Version: v1r20p0<br>
+Version: v1r21p0<br>
 Last updated: 24/07/2022
 
 ## 1. Overview
@@ -871,6 +871,8 @@ Data:
     }[],
     interfaceHandlerName: string,
     interfaceID: number,
+    messageID: string,
+    channelID: string,
     additionalInterfaceData?: any
 }
 ```
