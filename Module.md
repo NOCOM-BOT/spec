@@ -1,6 +1,6 @@
 # NOCOM_BOT Module Specification
 
-Version: v1r19p0<br>
+Version: v1r20p0<br>
 Last updated: 24/07/2022
 
 ## 1. Overview
@@ -556,7 +556,10 @@ Data:
 {
     interfaceID: number,
     content: string,
-    attachments: string[], // URL (file:// is allowed)
+    attachments: {
+        filename: string,
+        url: string // URL (data URI, http(s):// and file:// is allowed)
+    }[], 
     channelID: string,
     replyMessageID?: string,
     additionalInterfaceData: any // additional data is module-defined.
@@ -864,7 +867,7 @@ Data:
     content: string,
     attachments: {
         filename: string,
-        url: string // http(s)/file protocol is possible.
+        url: string // http(s)/file/base64-encoded data URI
     }[],
     interfaceHandlerName: string,
     interfaceID: number,
@@ -884,7 +887,7 @@ If plugin handler register a command, the function behind MUST accept a call wit
     args: string[],
     attachments: {
         filename: string,
-        url: string // http(s)/file protocol
+        url: string // http(s)/file/base64-encoded data URI
     }[],
     messageID: string,
     channelID: string,
@@ -901,7 +904,7 @@ Function MUST return a response with this format, or return an error:
     content: string,
     attachments?: {
         filename: string,
-        url: string // http(s)/file/base64-encoded data URI allowed
+        url: string // http(s)/file/base64-encoded data URI
     }[],
     additionalInterfaceData?: any
 }
