@@ -1,6 +1,6 @@
 # NOCOM_BOT Module Specification
 
-Version: v1r23p0<br>
+Version: v1r24p0<br>
 Last updated: 26/07/2022
 
 ## 1. Overview
@@ -781,6 +781,22 @@ Return:
 {
     error?: string,
     returnData: any
+}
+```
+
+#### **5.3.5. Search for plugin inside a directory (`plugin_search`)**
+
+Data:
+```ts
+{
+    pathname: string
+}
+```
+
+Returns:
+```ts
+{
+    valid: string[]
 }
 ```
 
