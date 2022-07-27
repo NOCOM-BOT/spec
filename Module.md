@@ -1,7 +1,7 @@
 # NOCOM_BOT Module Specification
 
-Version: v1r24p0<br>
-Last updated: 26/07/2022
+Version: v1r25p0<br>
+Last updated: 27/07/2022 (WYSI)
 
 ## 1. Overview
 
@@ -473,6 +473,36 @@ Return:
 }
 ```
 
+### 4.18. Get default database ID (`get_default_db`)
+
+Data: none
+
+Return:
+```ts
+{
+    databaseID: number,
+    resolver: string
+}
+```
+
+### 4.19. Get database resolver by ID (`get_db_resolver`)
+
+Data:
+```ts
+{
+    databaseID: number
+}
+```
+
+Return:
+```ts
+{
+    resolver: string
+}
+```
+
+This API throw error if database doesn't exist.
+
 ## 5. Application-specific API call
 
 > Note: If you are creating an interface that is using the module types defined below, you MUST implement all API call to maintain compatibility. Additional API commands MAY be defined if Module needs that.
@@ -859,6 +889,66 @@ Return:
 }
 ```
 
+#### **5.4.4. Get default configured language (`get_default_lang`)**
+
+Data: none
+
+Return:
+```ts
+{
+    language: string
+}
+```
+
+#### **5.4.5. Set user/channel/guild's language (`set_lang`)**
+
+Data:
+```ts
+({
+    formattedUserID: string
+} |
+{
+    formattedChannelID: string
+} |
+{
+    formattedGuildID: string
+}) & {
+    lang: string
+}
+```
+
+Return:
+```ts
+{
+    success: boolean
+}
+```
+
+#### **5.4.6. Get user/channel/guild's language (`get_lang`)**
+
+Data:
+```ts
+{
+    formattedUserID: string
+} |
+{
+    formattedChannelID: string
+} |
+{
+    formattedGuildID: string
+}
+```
+
+Return:
+```ts
+{
+    lang: string,
+    isDefault: boolean,
+    isInterfaceGiven: boolean,
+    isOverriden: boolean
+}
+```
+
 ## 6. Events
 
 Sometimes you need to broadcast to a lot of modules interested in a topic without knowing which modules subscribed. This is where Events come in.
@@ -886,15 +976,28 @@ Data:
         filename: string,
         url: string // http(s)/file/base64-encoded data URI
     }[],
+    mentions: {
+        [formattedUserID: string]: {
+            start: number,
+            length: number
+        }
+    },
     interfaceHandlerName: string,
     interfaceID: number,
     messageID: string,
     formattedMessageID: string,
     channelID: string,
     formattedChannelID: string,
+    guildID: string,
+    formattedGuildID: string,
+    senderID: string,
+    formattedSenderID: string,
+    language?: string,
     additionalInterfaceData?: any
 }
 ```
+
+> Note: Unless interface is Discord or other similar type, guildID/formattedGuildID will be the same as channelID/formattedChannelID.
 
 ## 7. Extra specification for modules
 
@@ -904,16 +1007,32 @@ If plugin handler register a command, the function behind MUST accept a call wit
 
 ```ts
 {
+    interfaceID: number,
+    interfaceHandlerName: string,
+
     cmd: string,
     args: string[],
     attachments: {
         filename: string,
         url: string // http(s)/file/base64-encoded data URI
     }[],
+    mentions: {
+        [formattedUserID: string]: {
+            start: number,
+            length: number
+        }
+    },
+
     messageID: string,
+    formattedMessageID: string,
     channelID: string,
+    formattedChannelID: string,
+    senderID: string,
+    formattedSenderID: string,
+
     originalContent: string,
     prefix: string,
+    language: string,
     additionalInterfaceData?: any
 }
 ```

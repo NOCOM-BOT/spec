@@ -1,6 +1,6 @@
 # NOCOM_BOT A-Type Plugin Specification
 
-Version: v0r9p1 (draft)<br>
+Version: v0r10p0 (draft)<br>
 Last updated: 27/07/2022 (WYSI)
 
 ## 1. Overview
@@ -125,6 +125,8 @@ function registerCommand(
                 length: number
             }
         },
+        originalContent: string,
+        prefix: string,
 
         messageID: string,
         formattedMessageID: string,
@@ -132,6 +134,8 @@ function registerCommand(
         formattedChannelID: string,
         senderID: string,
         formattedSenderID: string,
+        guildID: string,
+        formattedGuildID: string,
 
         language: string,
         additionalInterfaceData?: any
