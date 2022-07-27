@@ -1,6 +1,6 @@
 # NOCOM_BOT A-Type Plugin Specification
 
-Version: v0r8p0 (draft)<br>
+Version: v0r9p0 (draft)<br>
 Last updated: 20/07/2022
 
 ## 1. Overview
@@ -110,26 +110,46 @@ function registerFuncPlugin(funcName: string, callback: Function): Promise<boole
 function callAPI(moduleID: string, cmd: string, value: any): Promise<any>
 function registerCommand(
     commandName: string,
-    commandDescAPI: (lang: string, command: string) => Promise<string>,
+    commandDescAPI: (lang: string, command: string) => Promise<{
+        args: string,
+        desc: string
+    }>,
     commandCallback: (data: {
+        interfaceID: number,
+
         cmd: string,
         args: string[],
         attachments: {
             filename: string,
-            url: string // http(s)/file protocol is possible.
+            url: string // http(s)/file/data URI
         }[],
+        mentions: {
+            [formattedUserID: string]: {
+                start: number,
+                length: number
+            }
+        },
+
+        messageID: string,
+        formattedMessageID: string,
+        channelID: string,
+        formattedChannelID: string,
+        senderID: string,
+        formattedSenderID: string,
+
+        language: string,
         additionalInterfaceData?: any
     }) => Promise<{
         content: string,
         attachments: {
             filename?: string,
-            data: Buffer | string // if string then point to url, http(s)/file protocol allowed
+            data: Buffer | string // if string then point to url, http(s)/file/data URI allowed
         }[],
         additionalInterfaceData?: any
     }>, 
     compatibility: string[] // if this is an empty array then this indicates every messages platform is supported, otherwise indicates that this command only supports specific platform.
 ): Promise<boolean>
-function registerCommandFuncPlugin(commandName: string, funcDescAPI: string, funcName: string): Promise<boolean>
+function registerCommandFuncPlugin(commandName: string, funcDescAPI: string, funcName: string, compatibility: string[]): Promise<boolean>
 function exit(exit_code: number, exit_reason?: string): void
 function waitForModule(moduleNamespace: string, timeout?: number): Promise<boolean>
 const log = {
