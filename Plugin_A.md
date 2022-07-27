@@ -1,7 +1,7 @@
 # NOCOM_BOT A-Type Plugin Specification
 
-Version: v0r9p0 (draft)<br>
-Last updated: 20/07/2022
+Version: v0r9p1 (draft)<br>
+Last updated: 27/07/2022 (WYSI)
 
 ## 1. Overview
 
@@ -52,12 +52,6 @@ Note:
 
 ## 4. File content format
 
-### 4.1. plugin.json
-
-The content of `plugin.json` file SHOULD be following this format:
-
-[1]: Subclass MUST be 0 if you are writing in JavaScript (A0), or MUST be 1 if you are writing in TypeScript (A1).
-
 ### 4.1. package.json + pnpm-lock.json
 
 These 2 files MUST be present.
@@ -77,6 +71,8 @@ Additionally, package.json MUST contains plugin metadata under key `NOCOM_AType_
     pluginVersion: string // MUST be SemVer-compatible
 }
 ```
+
+[1]: Subclass MUST be 0 if you are writing in JavaScript (A0), or MUST be 1 if you are writing in TypeScript (A1).
 
 Example of package.json file can be found [https://github.com/NOCOM-BOT/plugin_base_A0/blob/main/package.json](here).
 
