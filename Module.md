@@ -1,7 +1,7 @@
 # NOCOM_BOT Module Specification
 
-Version: v1r25p0<br>
-Last updated: 27/07/2022 (WYSI)
+Version: v1r27p0<br>
+Last updated: 28/07/2022
 
 ## 1. Overview
 
@@ -502,6 +502,22 @@ Return:
 ```
 
 This API throw error if database doesn't exist.
+
+### 4.20. Get persistent data (`get_persistent_data`)
+
+This can be used to restore data for functionality.
+
+Data: none
+
+Return: data stored
+
+### 4.21. Set persistent data (`set_persistent_data`)
+
+This can be used to save data in case of crashing.
+
+Data: any, data you want to store
+
+Return: `true`
 
 ## 5. Application-specific API call
 
