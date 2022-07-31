@@ -1,7 +1,7 @@
 # NOCOM_BOT Module Specification
 
-Version: v1r27p0<br>
-Last updated: 28/07/2022
+Version: v1r28p0<br>
+Last updated: 31/07/2022
 
 ## 1. Overview
 
@@ -1043,6 +1043,8 @@ If plugin handler register a command, the function behind MUST accept a call wit
     formattedMessageID: string,
     channelID: string,
     formattedChannelID: string,
+    guildID: string,
+    formattedGuildID: string,
     senderID: string,
     formattedSenderID: string,
 
