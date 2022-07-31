@@ -1,6 +1,6 @@
 # NOCOM_BOT Module Specification
 
-Version: v1r28p0<br>
+Version: v1r29p0<br>
 Last updated: 31/07/2022
 
 ## 1. Overview
@@ -960,7 +960,6 @@ Return:
 {
     lang: string,
     isDefault: boolean,
-    isInterfaceGiven: boolean,
     isOverriden: boolean
 }
 ```
@@ -1008,7 +1007,6 @@ Data:
     formattedGuildID: string,
     senderID: string,
     formattedSenderID: string,
-    language?: string,
     additionalInterfaceData?: any
 }
 ```
