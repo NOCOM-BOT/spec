@@ -1,7 +1,7 @@
 # NOCOM_BOT A-Type Plugin Specification
 
-Version: v0r11p0<br>
-Last updated: 01/08/2022
+Version: v0r12p0<br>
+Last updated: 04/08/2022
 
 ## 1. Overview
 
@@ -100,7 +100,7 @@ import * as NOCOM_AType from "@nocom_bot/nocom-atype-support";
 If you are using TypeScript (to compile to JavaScript A0, or use directly with A1), install `@nocom_bot/types_ts_plugin_a1` and add types using this command:
 
 ```ts
-import type "@nocom_bot/types_ts_plugin_a1";
+import "@nocom_bot/types_ts_plugin_a1";
 ```
 
 The `NOCOM_AType` variable will have these keys:
