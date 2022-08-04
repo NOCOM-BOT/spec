@@ -1,6 +1,6 @@
 # NOCOM_BOT Module Specification
 
-Version: v1r30p0<br>
+Version: v1r31p0<br>
 Last updated: 04/08/2022
 
 ## 1. Overview
@@ -865,9 +865,23 @@ Data:
     args: {
         fallback: string,
         [ISOLanguageCode: string]: string
-    }
+    },
+    argsName?: string[],
+    compatibilty: string[]
 }
 ```
+
+**Note 1**: `args` SHOULD be in this standardized format: 
+```
+<required arg1> <required arg2> [optional arg3]
+```
+
+For example (the entire command):
+```
+/rps <amount> [rock/paper/scissor]
+```
+
+**Note 2**: argsName is used for Discord slash command (or equivalent). It MUST only contain English character only, no spaces allowed.
 
 Return:
 ```ts
@@ -907,13 +921,15 @@ Return:
         command: string,
         funcName: string,
         description: {
-            fallback: string,
+        fallback: string,
             [ISOLanguageCode: string]: string
         },
         args: {
             fallback: string,
             [ISOLanguageCode: string]: string
-        }
+        },
+        argsName?: string[],
+        compatibilty: string[]
     }[],
     count: number
 }
