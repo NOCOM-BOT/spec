@@ -1,7 +1,7 @@
 # NOCOM_BOT Module Specification
 
-Version: v1r29p0<br>
-Last updated: 31/07/2022
+Version: v1r30p0<br>
+Last updated: 04/08/2022
 
 ## 1. Overview
 
@@ -858,7 +858,14 @@ Data:
     namespace: string,
     command: string,
     funcName: string,
-    funcDescAPI: string
+    description: {
+        fallback: string,
+        [ISOLanguageCode: string]: string
+    },
+    args: {
+        fallback: string,
+        [ISOLanguageCode: string]: string
+    }
 }
 ```
 
@@ -899,7 +906,14 @@ Return:
         namespace: string,
         command: string,
         funcName: string,
-        funcDescAPI: string
+        description: {
+            fallback: string,
+            [ISOLanguageCode: string]: string
+        },
+        args: {
+            fallback: string,
+            [ISOLanguageCode: string]: string
+        }
     }[],
     count: number
 }
@@ -960,7 +974,8 @@ Return:
 {
     lang: string,
     isDefault: boolean,
-    isOverriden: boolean
+    isOverriden: boolean,
+    isInterfaceGiven: boolean
 }
 ```
 
@@ -982,6 +997,8 @@ The callback API will be called from Core with the following data when a module 
 ### 6.1. Application-specific events
 
 #### **6.1.1. Message from bot users (`interface_message`)**
+
+> Note: There are some edge cases (for example: Discord slash commands) where commands is not received as string to be parsed. Interface handler SHOULD convert that to format compatible with this if possible.
 
 Data:
 ```ts
@@ -1007,6 +1024,7 @@ Data:
     formattedGuildID: string,
     senderID: string,
     formattedSenderID: string,
+    language?: string,
     additionalInterfaceData?: any
 }
 ```
