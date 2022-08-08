@@ -1,7 +1,7 @@
 # NOCOM_BOT Module Specification
 
-Version: v1r31p0<br>
-Last updated: 04/08/2022
+Version: v1r32p0<br>
+Last updated: 09/08/2022
 
 ## 1. Overview
 
@@ -1046,6 +1046,25 @@ Data:
 ```
 
 > Note: Unless interface is Discord or other similar type, guildID/formattedGuildID will be the same as channelID/formattedChannelID.
+
+#### **6.1.2. Register/unregister command event (`cmdhandler_regevent`)**
+
+Data:
+```ts
+{
+    isRegisterEvent: boolean, // true if registered, false if unregistered
+    namespace: string,
+    command: string,
+    description?: {
+        fallback: string,
+        [ISOLanguageCode: string]: string
+    },
+    args?: {
+        fallback: string,
+        [ISOLanguageCode: string]: string
+    }
+}
+```
 
 ## 7. Extra specification for modules
 
