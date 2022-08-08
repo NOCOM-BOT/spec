@@ -1,7 +1,7 @@
 # NOCOM_BOT A-Type Plugin Specification
 
-Version: v0r12p0<br>
-Last updated: 04/08/2022
+Version: v0r13p0<br>
+Last updated: 09/08/2022
 
 ## 1. Overview
 
@@ -112,12 +112,20 @@ function registerFuncPlugin(funcName: string, callback: Function): Promise<boole
 function callAPI(moduleID: string, cmd: string, value: any): Promise<any>
 function registerCommand(
     commandName: string,
-    commandDescAPI: (lang: string, command: string) => Promise<{
-        args: string,
-        desc: string
-    }>,
+    commandInfo: {
+        args: {
+            fallback: string,
+            [ISOLanguageCode: string]: string
+        },
+        argsName?: string[],
+        description: {
+            fallback: string,
+            [ISOLanguageCode: string]: string
+        }
+    },
     commandCallback: (data: {
         interfaceID: number,
+        interfaceHandlerName: string,
 
         cmd: string,
         args: string[],
@@ -153,9 +161,24 @@ function registerCommand(
         }[],
         additionalInterfaceData?: any
     }>, 
-    compatibility: string[] // if this is an empty array then this indicates every messages platform is supported, otherwise indicates that this command only supports specific platform.
+    compatibility?: string[] // if this is an empty array then this indicates every messages platform is supported, otherwise indicates that this command only supports specific platform.
 ): Promise<boolean>
-function registerCommandFuncPlugin(commandName: string, funcDescAPI: string, funcName: string, compatibility: string[]): Promise<boolean>
+function registerCommandFuncPlugin(
+    commandName: string,
+    commandInfo: {
+        args: {
+            fallback: string,
+            [ISOLanguageCode: string]: string
+        },
+        argsName?: string[],
+        description: {
+            fallback: string,
+            [ISOLanguageCode: string]: string
+        }
+    },
+    funcName: string, 
+    compatibility?: string[]
+): Promise<boolean>
 function exit(exit_code: number, exit_reason?: string): void
 function waitForModule(moduleNamespace: string, timeout?: number): Promise<boolean>
 const log = {
@@ -168,8 +191,18 @@ const log = {
 }
 ```
 
+**Note 1**: `args` in command info SHOULD be in this standardized format: 
+```
+<required arg1> <required arg2> [optional arg3]
+```
+
+For example (the entire command):
+```
+/rps <amount> [rock/paper/scissor]
+```
+
+**Note 2**: argsName is used for Discord slash command (or equivalent). It MUST only contain English character only, no spaces allowed.
+
 ### 4.3. tsconfig.json (subclass 1 only)
 
 See [this](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html) for the format of this file.
-
-(TBD)
