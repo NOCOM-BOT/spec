@@ -1,7 +1,7 @@
 # NOCOM_BOT Module Specification
 
-Version: v1r32p0<br>
-Last updated: 09/08/2022
+Version: v1r33p0<br>
+Last updated: 11/08/2022
 
 ## 1. Overview
 
@@ -1062,7 +1062,9 @@ Data:
     args?: {
         fallback: string,
         [ISOLanguageCode: string]: string
-    }
+    },
+    argsName?: string[],
+    compatibility?: string[]
 }
 ```
 
