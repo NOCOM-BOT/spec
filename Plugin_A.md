@@ -1,7 +1,7 @@
 # NOCOM_BOT A-Type Plugin Specification
 
-Version: v0r13p0<br>
-Last updated: 09/08/2022
+Version: v0r13p1<br>
+Last updated: 14/08/2022
 
 ## 1. Overview
 
@@ -206,3 +206,14 @@ For example (the entire command):
 ### 4.3. tsconfig.json (subclass 1 only)
 
 See [this](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html) for the format of this file.
+
+## 5. Notes
+
+### 5.1. Localization: language code/locales
+
+All language code MUST follow BCP 47 [RFC4647] [RFC5646] standard (also known as [IETF language tag](https://en.wikipedia.org/wiki/IETF_language_tag)). Some examples of IETF language tag format is at below:
+
+- English (United States): `en-US`
+- English (United Kingdom): `en-GB`
+- Vietnamese: `vi`
+- Japanese: `ja`

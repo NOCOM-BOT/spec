@@ -1,7 +1,7 @@
 # NOCOM_BOT Module Specification
 
-Version: v1r33p0<br>
-Last updated: 11/08/2022
+Version: v1r33p1<br>
+Last updated: 14/08/2022
 
 ## 1. Overview
 
@@ -1057,11 +1057,11 @@ Data:
     command: string,
     description?: {
         fallback: string,
-        [ISOLanguageCode: string]: string
+        [languageCode: string]: string
     },
     args?: {
         fallback: string,
-        [ISOLanguageCode: string]: string
+        [languageCode: string]: string
     },
     argsName?: string[],
     compatibility?: string[]
@@ -1120,3 +1120,14 @@ Function MUST return a response with this format, or return an error:
     additionalInterfaceData?: any
 }
 ```
+
+## 8. Notes
+
+### 8.1. Localization: language code/locales
+
+All language code MUST follow BCP 47 [RFC4647] [RFC5646] standard (also known as [IETF language tag](https://en.wikipedia.org/wiki/IETF_language_tag)). Some examples of IETF language tag format is at below:
+
+- English (United States): `en-US`
+- English (United Kingdom): `en-GB`
+- Vietnamese: `vi`
+- Japanese: `ja`
