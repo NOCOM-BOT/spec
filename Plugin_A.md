@@ -1,7 +1,7 @@
 # NOCOM_BOT A-Type Plugin Specification
 
-Version: v0r14p0<br>
-Last updated: 18/08/2022
+Version: v1r0p0<br>
+Last updated: 19/08/2022
 
 ## 1. Overview
 
@@ -64,7 +64,7 @@ Additionally, package.json MUST contains plugin metadata under key `NOCOM_AType_
 
 ```ts
 {
-    formatVersion: 0,
+    formatVersion: 1,
     subclass: (0 | 1), // See note [1]
     entryPoint: string, // can be redefined, but SHOULD be entry.js / entry.ts
     author: string,
@@ -218,7 +218,11 @@ See [this](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html) for 
 
 ## 5. Encryption and ATBAN banning system
 
-(WIP)
+> Note: Only closed-source version of handler support this feature.
+
+Plugins can be encrypted if plugin developers don't want other users to see and modify plugin code. If an attempt to tamper protected plugins is detected, ATBAN banning system will take place and make protected plugins refuse to work.
+
+Due to how sensitive this is, this specification will not describe how it is implemented.
 
 ## 6. Notes
 
