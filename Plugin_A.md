@@ -1,13 +1,15 @@
 # NOCOM_BOT A-Type Plugin Specification
 
-Version: v0r13p1<br>
-Last updated: 14/08/2022
+Version: v0r14p0<br>
+Last updated: 18/08/2022
 
 ## 1. Overview
 
 NOCOM_BOT is a powerful, flexible chatbot framework that allow bot developer to extends its functionality using modules and plugins. To make things easier for bot developers, this specification will define a new format that is more friendly than writing code that access the Core directly.
 
-The A-Type plugin format is specifically designed for C3CBot v1.x, but other bot developers can install the handler with no restriction included.
+The A-Type plugin format is designed to be used C3CBot v1.x, but other bot developers can install the handler as well.
+
+A-Type plugin format does have encrypted plugin variant, and bot supporting encrypt variant MUST enable ATBAN banning system included in the handler (see section 5 for more information).
 
 ## 2. Terms and Definitions
 
@@ -189,6 +191,13 @@ const log = {
     debug: (...data) => Promise<void>,
     verbose: (...data) => Promise<void>
 }
+
+function database(databaseID: number): {
+    get(table: string, key: string): Promise<any>,
+    set(table: string, key: string, data: any): Promise<boolean>,
+    delete(table: string, key: string): Promise<boolean>,
+    deleteTable(table: string): Promise<boolean>
+}
 ```
 
 **Note 1**: `args` in command info SHOULD be in this standardized format: 
@@ -207,9 +216,13 @@ For example (the entire command):
 
 See [this](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html) for the format of this file.
 
-## 5. Notes
+## 5. Encryption and ATBAN banning system
 
-### 5.1. Localization: language code/locales
+(WIP)
+
+## 6. Notes
+
+### 6.1. Localization: language code/locales
 
 All language code MUST follow BCP 47 [RFC4647] [RFC5646] standard (also known as [IETF language tag](https://en.wikipedia.org/wiki/IETF_language_tag)). Some examples of IETF language tag format is at below:
 

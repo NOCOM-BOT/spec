@@ -1,7 +1,7 @@
 # NOCOM_BOT Module Specification
 
-Version: v1r33p1<br>
-Last updated: 14/08/2022
+Version: v1r34p0<br>
+Last updated: 18/08/2022
 
 ## 1. Overview
 
@@ -573,7 +573,7 @@ Data:
 Return:
 ```ts
 {
-    userName: string,
+    name: string,
     ... // additional data is module-defined.
 }
 ```
