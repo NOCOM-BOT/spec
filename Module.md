@@ -1,7 +1,7 @@
 # NOCOM_BOT Module Specification
 
-Version: v1r34p0<br>
-Last updated: 18/08/2022
+Version: v1r35p0<br>
+Last updated: 21/08/2022
 
 ## 1. Overview
 
@@ -518,6 +518,15 @@ This can be used to save data in case of crashing.
 Data: any, data you want to store
 
 Return: `true`
+
+### 4.22. Get operator list (`get_operator_list`)
+
+Data: none
+
+Return:
+```ts
+string[]
+```
 
 ## 5. Application-specific API call
 
@@ -1041,6 +1050,7 @@ Data:
     senderID: string,
     formattedSenderID: string,
     language?: string,
+    isOperator: boolean,
     additionalInterfaceData?: any
 }
 ```
@@ -1104,6 +1114,8 @@ If plugin handler register a command, the function behind MUST accept a call wit
     originalContent: string,
     prefix: string,
     language: string,
+
+    isOperator: boolean,
     additionalInterfaceData?: any
 }
 ```
