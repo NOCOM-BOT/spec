@@ -1,7 +1,7 @@
 # NOCOM_BOT Module Specification
 
-Version: v1r35p0<br>
-Last updated: 21/08/2022
+Version: v1r36p0<br>
+Last updated: 25/08/2022
 
 ## 1. Overview
 
@@ -527,6 +527,12 @@ Return:
 ```ts
 string[]
 ```
+
+### 4.23. Wait for default database initialization (`wait_for_default_db`)
+
+Data: none
+
+Return: `null`
 
 ## 5. Application-specific API call
 
