@@ -1,7 +1,7 @@
 # NOCOM_BOT Module Specification
 
-Version: v1r36p0<br>
-Last updated: 25/08/2022
+Version: v1r37p0<br>
+Last updated: 12/05/2023
 
 ## 1. Overview
 
@@ -63,8 +63,8 @@ Module MUST be packed in ZIP with `module.json` describing the type of Module, a
 }
 ```
 
-[1]: https://nodejs.org/dist/latest-v17.x/docs/api/os.html#osplatform
-[2]: https://nodejs.org/dist/latest-v17.x/docs/api/os.html#osarch
+[1]: https://nodejs.org/dist/latest-v20.x/docs/api/os.html#osplatform
+[2]: https://nodejs.org/dist/latest-v20.x/docs/api/os.html#osarch
 
 Please note that, when Module is being executed, all content inside the ZIP file will be extracted to `<profile directory>/temp/${random hex}/${module namespace}/`, and the Module's current working directory (if type is "package", "executable" or "code-src") will be set to that directory.
 
@@ -533,6 +533,21 @@ string[]
 Data: none
 
 Return: `null`
+
+### 4.24. Get registered plugins (`get_registered_plugins`)
+
+Data: none
+
+Return: 
+```ts
+{
+    namespace: string,
+    pluginName: string,
+    version: string,
+    author: string,
+    resolver: string
+}[]
+```
 
 ## 5. Application-specific API call
 
@@ -1047,6 +1062,7 @@ Data:
     },
     interfaceHandlerName: string,
     interfaceID: number,
+
     messageID: string,
     formattedMessageID: string,
     channelID: string,
@@ -1055,6 +1071,8 @@ Data:
     formattedGuildID: string,
     senderID: string,
     formattedSenderID: string,
+    isDM: boolean,
+
     language?: string,
     isOperator: boolean,
     additionalInterfaceData?: any

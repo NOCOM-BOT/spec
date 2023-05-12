@@ -1,7 +1,7 @@
 # NOCOM_BOT A-Type Plugin Specification
 
-Version: v1r1p0<br>
-Last updated: 21/08/2022
+Version: v1r2p0<br>
+Last updated: 12/05/2023
 
 ## 1. Overview
 
@@ -152,6 +152,7 @@ function registerCommand(
         formattedSenderID: string,
         guildID: string,
         formattedGuildID: string,
+        isDM: boolean,
 
         language: string,
         isOperator: boolean,
