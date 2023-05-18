@@ -352,7 +352,7 @@ Return:
 }
 ```
 
-For more information, see 6.
+For more information, see [6](#6-events).
 
 ### 4.6. Unregister event hook (`unregister_event_hook`)
 
@@ -371,7 +371,7 @@ Return:
 }
 ```
 
-For more information, see 6.
+For more information, see [6](#6-events).
 
 ### 4.7. Send event (`send_event`)
 
