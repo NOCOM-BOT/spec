@@ -1,6 +1,6 @@
 # NOCOM_BOT Module Specification
 
-Version: v1r37p1<br>
+Version: v1r37p2<br>
 Last updated: 18/05/2023
 
 ## Table of contents
